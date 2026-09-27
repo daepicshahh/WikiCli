@@ -1,4 +1,4 @@
-import wikipedia-api
+import wikipediaapi
 import pyfiglet
 import os
 from pathlib import Path
