@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import random
 from datetime import datetime
+import time
 
 user_email = os.getenv("WIKI_USER_EMAIL")
 if not user_email:
@@ -22,9 +23,11 @@ while True:
     request = input("Hey, what do you wanna learn about today? (Type exit to leave)")
     if request == "exit":
         print(i_banner)
+        time.sleep(2)
         break
     if not request:
         print("Hey, search query cant be empty!")
+        time.sleep(2)
         continue
 
     rand_prefix = random.randint(1000, 9999)
@@ -35,6 +38,7 @@ while True:
     my_list = list(results.pages.keys())
     if not my_list:
         print("Sorry, we couldn't find that!")
+        time.sleep(2)
         continue
     print("Here are the results I found!", my_list)
     choice = input(("Please type the EXACT name of the item you want to see!(Type back to go back!)"))
@@ -46,13 +50,22 @@ while True:
         words = summary.split()
         count = len(words)
         print("Heya! Heres a summary of the topic you chose!: ", summary)
-        
-        print("I've already saved that ", count, ' word summary to your computer. Have fun!')
-        print(i_banner)
+        user_input = input("Is this what you wanted? (Type y/n to answer)")
+        if user_input == "y":
+
+            print("I've already saved that ", count, ' word summary to your computer. Have fun!')
+            time.sleep(2)
+            print(i_banner)
    
-        final_destination = folder_path / filename
-        with open(final_destination, "w", encoding="utf-8") as file:
-            file.write(summary)
-    else:
-        print("Sorry, didn't catch that! Please try again")
-    continue
+            final_destination = folder_path / filename
+            with open(final_destination, "w", encoding="utf-8") as file:
+                file.write(summary)
+        if user_input == "n":
+            print("Alright! Taking you back so you can correct your search!")
+            time.sleep(2)
+            continue
+        
+    if choice not in my_list and choice != "back":
+        print("Sorry, didn't catch that! Please try again.")
+        time.sleep(2)
+        continue
